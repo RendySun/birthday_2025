@@ -19,59 +19,7 @@
     .chip{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:#fff3f6;border:1px solid #ffe0ea;font-size:12px;color:#b4235c}
     h1{margin:.3rem 0 0;font-size:clamp(28px,4.2vw,44px); line-height:1.1}
     .sub{opacity:.8;margin:6px 0 0 2px}
-    /* .photo{width:100%; max-height:380px; object-fit:cover; border-radius:18px; box-shadow:0 10px 25px rgba(0,0,0,.1)}
-
-    .grid{display:grid; grid-template-columns:1.3fr .9fr; gap:22px}
-    @media (max-width:860px){ .grid{grid-template-columns:1fr} }
-
-    .btn{appearance:none; border:0; background:linear-gradient(135deg,var(--accent),#ff9ac5); color:white; padding:12px 18px; border-radius:14px; font-weight:700; cursor:pointer; box-shadow:0 8px 20px rgba(255,107,147,.35); transition:transform .08s ease}
-    .btn:hover{transform:translateY(-1px)}
-    .ghost{background:transparent; color:var(--accent); border:2px solid #ffd0df}
-
-    .panel{background:#fff8fb; border:1px dashed #ffd0df; padding:16px; border-radius:14px}
-    .panel h3{margin:0 0 8px 0}
-
-    .type{min-height:72px; font-size:clamp(16px,2.3vw,18px)}
-    .quote{font-style:italic; font-size:clamp(16px,2.3vw,20px); color:#b4235c; text-align:center; padding:10px 0;}
-
-    .footer{font-size:12px; opacity:.6; text-align:center} */
-
-    /* PHOTO STACK */
-    .photo-stack{
-      position:relative;
-      width:100%;
-      max-height:380px;
-      aspect-ratio:4/5;
-      margin-bottom:8px;
-    }
-    .polaroid{
-      position:absolute;
-      inset:0;
-      padding:10px;
-      background:#ffffff;
-      border-radius:18px;
-      box-shadow:0 12px 30px rgba(0,0,0,.18);
-      cursor:pointer;
-      transition:transform .3s ease, box-shadow .3s ease;
-    }
-    .polaroid img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      border-radius:12px;
-      display:block;
-    }
-    /* Slight different angles for the stack */
-    .polaroid:nth-child(1){ transform:rotate(-7deg) translate(-6px,3px); }
-    .polaroid:nth-child(2){ transform:rotate(3deg) translate(8px,-4px); }
-    .polaroid:nth-child(3){ transform:rotate(-2deg) translate(0px,6px); }
-    .polaroid:nth-child(4){ transform:rotate(7deg) translate(-4px,-6px); }
-
-    .polaroid.active{
-      transform:translateY(-10px) scale(1.04) rotate(0deg);
-      box-shadow:0 18px 45px rgba(0,0,0,.24);
-      z-index:999;
-    }
+    .photo{width:100%; max-height:380px; object-fit:cover; border-radius:18px; box-shadow:0 10px 25px rgba(0,0,0,.1)}
 
     .grid{display:grid; grid-template-columns:1.3fr .9fr; gap:22px}
     @media (max-width:860px){ .grid{grid-template-columns:1fr} }
@@ -119,10 +67,7 @@
       <p class="sub">I made this little card just for you.</p>
       <div class="grid" style="margin-top:14px">
         <div>
-          <!-- <img class="photo" id="photo" src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1600&auto=format&fit=crop" alt="Our Photo"/> -->
-          
-          <!-- PHOTO STACK HERE -->
-          <div class="photo-stack" id="photoStack"></div>
+          <img class="photo" id="photo" src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1600&auto=format&fit=crop" alt="Our Photo"/>
           <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap">
             <button class="btn" id="reveal">Open your letter 💌</button>
             <!-- <button class="btn ghost" id="confetti">Celebrate 🎉</button> -->
@@ -163,8 +108,7 @@
       herName: "Paopaooo",
       fromName: "Rendy",
       headline: "Happy Birthday, Pao Sayang ✨",
-      // photoUrl: "paopao.JPEG",
-      photos: ["paopao1.jpg", "paopao2.jpg", "paopao3.jpg"],
+      photoUrl: "paopao.JPEG",
       typedLine: "Every day with you feels like a gift. Today, I wrap it with a bow.",
       letter: `Dear Pao,\n\nIt's your birthday again ndut!(27 November), It's the third time i can celebrate your bday together with you :D we went adventure to 3 different country in 3 ours years together, hopefully we can do it every year and hopefully SG trip count as ur bday trip to because i planned it on mid nov so we can celebrate together.\n\nMaybe rn u faced many obstacled, diffilcuties, and countless challenges, but i hope u stay strong and u gonna find ur rainbow soon ndut.\n\nI promise to keep choosing you— in small ways each day, and in big ways when life tests us. May your year be filled with gentle mornings, cozy coffees, and adventures that make your heart sparkle.\n\nHappy Birthday, my favorite person. I love you — today, tomorrow, always.\n\nHAPPY 26!!\n♥`,
       quotes:[
@@ -182,44 +126,7 @@
     document.getElementById('name').textContent = CONFIG.herName;
     document.getElementById('from').textContent = CONFIG.fromName;
     document.getElementById('title').textContent = CONFIG.headline;
-    // if(CONFIG.photoUrl) document.getElementById('photo').src = CONFIG.photoUrl;
-
-    // Build polaroid photo stack
-    const stackEl = document.getElementById('photoStack');
-    const photos = CONFIG.photos || [];
-    const polaroidCards = [];
-
-    if (photos.length > 0 && stackEl) {
-      photos.forEach((src, idx) => {
-        const card = document.createElement('div');
-        card.className = 'polaroid';
-        card.style.zIndex = 10 + idx;
-
-        const img = document.createElement('img');
-        img.src = src;
-        img.alt = `Our photo ${idx + 1}`;
-
-        card.appendChild(img);
-        stackEl.appendChild(card);
-        polaroidCards.push(card);
-      });
-
-      // Make the top card 'active'
-      if (polaroidCards.length) {
-        polaroidCards[polaroidCards.length - 1].classList.add('active');
-      }
-
-      // Click to bring any card to front
-      let topZ = 10 + polaroidCards.length;
-      polaroidCards.forEach(card => {
-        card.addEventListener('click', () => {
-          topZ += 1;
-          polaroidCards.forEach(c => c.classList.remove('active'));
-          card.classList.add('active');
-          card.style.zIndex = topZ;
-        });
-      });
-    }
+    if(CONFIG.photoUrl) document.getElementById('photo').src = CONFIG.photoUrl;
 
     // Typewriter intro
     const typedEl = document.getElementById('typed');
