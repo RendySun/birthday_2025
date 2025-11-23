@@ -94,7 +94,8 @@
   <div class="modal-backdrop" id="modal">
     <div class="modal">
       <h2>Your Bday Gift! 🎂🎉</h2>
-      <p>Rp.1.000.000 Bday Gift Voucher.\nYou can request anything 💗.</p>
+      <p>Rp.1.000.000 Bday Gift Voucher.</p>
+      <p>You can request anything 💗.</p>
       <button class="btn" id="closeModal">Thank you 💗</button>
     </div>
   </div>
@@ -182,7 +183,7 @@
     function rainHearts(n){ for(let i=0;i<n;i++) setTimeout(spawnHeart, i*60); }
 
     // Music helper
-    function playMusic(){
+    (function playMusic(){
       const audio = document.getElementById('music');
       if(CONFIG.musicUrl){ audio.src = CONFIG.musicUrl; audio.currentTime = 0; audio.volume = 0.8; audio.play().catch(()=>{}); }
       else { // fallback soft chime with WebAudio
@@ -200,7 +201,7 @@
           });
         }catch(e){}
       }
-    }
+    })();
 
     // Celebrate action: popup + music + visuals
     function celebrate(){
