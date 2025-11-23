@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday, PaoPao 🎂❤️</title>
+  <style>
+    :root{ --bg1:#fff7f9; --bg2:#ffe9f1; --card:#ffffff; --ink:#2b2b2b; --accent:#ff6b93; --accent2:#7c4dff; }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial; color:var(--ink)}
+    body{
+      background: radial-gradient(1200px 800px at 20% -10%, var(--bg2), transparent 60%),
+                  radial-gradient(1200px 800px at 100% 0%, var(--bg1), transparent 60%),
+                  linear-gradient(180deg, #fff, var(--bg1));
+      display:flex;align-items:center;justify-content:center; padding:24px; overflow-x:hidden;
+    }
+    .wrapper{max-width:940px;width:100%;display:grid;gap:18px}
+    .card{ background:var(--card); border-radius:24px; box-shadow:0 10px 30px rgba(0,0,0,.08); padding:28px; position:relative; overflow:hidden; }
+    .chip{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:#fff3f6;border:1px solid #ffe0ea;font-size:12px;color:#b4235c}
+    h1{margin:.3rem 0 0;font-size:clamp(28px,4.2vw,44px); line-height:1.1}
+    .sub{opacity:.8;margin:6px 0 0 2px}
+    .photo{width:100%; max-height:380px; object-fit:cover; border-radius:18px; box-shadow:0 10px 25px rgba(0,0,0,.1)}
+
+    .grid{display:grid; grid-template-columns:1.3fr .9fr; gap:22px}
+    @media (max-width:860px){ .grid{grid-template-columns:1fr} }
+
+    .btn{appearance:none; border:0; background:linear-gradient(135deg,var(--accent),#ff9ac5); color:white; padding:12px 18px; border-radius:14px; font-weight:700; cursor:pointer; box-shadow:0 8px 20px rgba(255,107,147,.35); transition:transform .08s ease}
+    .btn:hover{transform:translateY(-1px)}
+    .ghost{background:transparent; color:var(--accent); border:2px solid #ffd0df}
+
+    .panel{background:#fff8fb; border:1px dashed #ffd0df; padding:16px; border-radius:14px}
+    .panel h3{margin:0 0 8px 0}
+
+    .type{min-height:72px; font-size:clamp(16px,2.3vw,18px)}
+    .quote{font-style:italic; font-size:clamp(16px,2.3vw,20px); color:#b4235c; text-align:center; padding:10px 0;}
+
+    .footer{font-size:12px; opacity:.6; text-align:center}
+
+    /* Floating hearts */
+    .hearts{position:absolute; inset:0; pointer-events:none; overflow:hidden}
+    .heart{position:absolute; font-size:18px; animation:floatUp linear forwards; opacity:.85}
+    @keyframes floatUp{from{transform:translateY(20px) scale(0.9); opacity:.0} to{transform:translateY(-120vh) scale(1.2); opacity:.95}}
+
+    /* Letter */
+    .letter{display:none; white-space:pre-wrap; line-height:1.55}
+    .letter.show{display:block}
+
+    /* Sparkles */
+    .sparkle{position:fixed; width:6px; height:6px; border-radius:50%; background: radial-gradient(circle,#ffd1e1,#ffc1d6 60%,transparent 61%); pointer-events:none; animation:pop .7s ease-out forwards}
+    @keyframes pop{from{transform:scale(.2); opacity:1} to{transform:scale(1.8); opacity:0}}
+
+    /* Modal */
+    .modal-backdrop{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.35); backdrop-filter: blur(2px);}
+    .modal-backdrop.show{display:flex}
+    .modal{background:white; border-radius:20px; padding:22px; max-width:420px; width:92%; text-align:center; box-shadow:0 15px 40px rgba(0,0,0,.18); transform:scale(.9); opacity:0; transition:.2s ease}
+    .modal-backdrop.show .modal{transform:scale(1); opacity:1}
+    .modal h2{margin:0 0 6px}
+    .modal p{margin:0 0 14px; opacity:.8}
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card">
+      <div class="hearts" id="hearts"></div>
+      <span class="chip">For <strong id="name">Induttt</strong> • 27 Nov</span>
+      <h1 id="title">Happy Birthday, My love ✨</h1>
+      <p class="sub">I made this little card just for you.</p>
+      <div class="grid" style="margin-top:14px">
+        <div>
+          <img class="photo" id="photo" src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1600&auto=format&fit=crop" alt="Our Photo"/>
+          <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap">
+            <button class="btn" id="reveal">Open your letter 💌</button>
+            <button class="btn ghost" id="confetti">Celebrate 🎉</button>
+          </div>
+        </div>
+        <div>
+          <div class="panel">
+            <h3>Today's Little Surprise 💫</h3>
+            <p class="quote" id="quote"></p>
+          </div>
+          <div style="height:10px"></div>
+          <div class="panel">
+            <h3>Words from me</h3>
+            <div id="typed" class="type"></div>
+            <div id="letter" class="letter"></div>
+          </div>
+        </div>
+      </div>
+      <p class="footer">Made with ♥ by <span id="from">You</span>.</p>
+    </div>
+  </div>
+
+  <!-- Modal for Celebrate -->
+  <div class="modal-backdrop" id="modal">
+    <div class="modal">
+      <h2>Happy Birthday! 🎂🎉</h2>
+      <p>May your day be full of love, laughter, and little surprises.</p>
+      <button class="btn" id="closeModal">Thank you 💗</button>
+    </div>
+  </div>
+
+  <!-- Optional audio element (src set by JS if provided) -->
+  <audio id="music" preload="auto"></audio>
+
+  <script>
+    const CONFIG = {
+      herName: "Paopaooo",
+      fromName: "Rendy",
+      headline: "Happy Birthday, My Love ✨",
+      photoUrl: "paopao.JPEG",
+      typedLine: "Every day with you feels like a gift. Today, I wrap it with a bow.",
+      letter: `Dear love,\n\nOn your special day (27 November), I want to pause and thank the universe for you. Your laugh warms my mornings, your kindness keeps me steady, and your courage inspires me to be better.\n\nI promise to keep choosing you— in small ways each day, and in big ways when life tests us. May your year be filled with gentle mornings, cozy coffees, and adventures that make your heart sparkle.\n\nHappy Birthday, my favorite person. I love you — today, tomorrow, always.\n\n♥,`,
+      quotes:[
+        "You're the poetry I never knew how to write.",
+        "You make ordinary moments feel magical.",
+        "You are my favorite place to be.",
+        "Loving you is my best decision ever.",
+        "Your smile is my daily sunshine."
+      ],
+      musicUrl: "", // ← put an mp3/ogg URL here to play a short clip when celebrating
+      autoConfettiIntervalMs: 5000 // ← confetti/heart rain every 5s
+    };
+
+    // Personalize
+    document.getElementById('name').textContent = CONFIG.herName;
+    document.getElementById('from').textContent = CONFIG.fromName;
+    document.getElementById('title').textContent = CONFIG.headline;
+    if(CONFIG.photoUrl) document.getElementById('photo').src = CONFIG.photoUrl;
+
+    // Typewriter intro
+    const typedEl = document.getElementById('typed');
+    const type = (text, i=0)=>{ if(i>text.length) return; typedEl.textContent = text.slice(0,i); setTimeout(()=>type(text,i+1), 28); };
+    type(CONFIG.typedLine);
+
+    // Surprise quote
+    const quoteEl = document.getElementById('quote');
+    quoteEl.textContent = CONFIG.quotes[Math.floor(Math.random()*CONFIG.quotes.length)];
+
+    // Letter
+    const letterEl = document.getElementById('letter');
+    document.getElementById('reveal').addEventListener('click', ()=>{
+      letterEl.classList.add('show');
+      letterEl.innerText = CONFIG.letter + "\n" + CONFIG.fromName;
+      celebrate();
+    });
+
+    // Celebrate button
+    document.getElementById('confetti').addEventListener('click', celebrate);
+
+    // Modal behavior
+    const modal = document.getElementById('modal');
+    document.getElementById('closeModal').addEventListener('click', ()=> modal.classList.remove('show'));
+
+    // Hearts background
+    const hearts = document.getElementById('hearts');
+    function spawnHeart(){
+      const el = document.createElement('div');
+      el.className='heart';
+      el.textContent = Math.random()>.5 ? '❤' : '💖';
+      el.style.left = Math.random()*100 + 'vw';
+      el.style.bottom = '-20px';
+      el.style.animationDuration = (6 + Math.random()*6) + 's';
+      el.style.fontSize = (14 + Math.random()*20) + 'px';
+      el.style.filter = 'blur(' + (Math.random()*0.5) + 'px)';
+      hearts.appendChild(el); setTimeout(()=>el.remove(), 12000);
+    }
+    setInterval(spawnHeart, 900);
+
+    // Sparkle burst
+    function burst(){
+      const count = 32;
+      for(let i=0;i<count;i++){
+        const s = document.createElement('div'); s.className='sparkle';
+        const a = Math.random()*Math.PI*2; const r = 60 + Math.random()*120;
+        const x = Math.cos(a)*r, y = Math.sin(a)*r;
+        s.style.left = (innerWidth/2 + x) + 'px';
+        s.style.top = (innerHeight/2 + y) + 'px';
+        document.body.appendChild(s); setTimeout(()=>s.remove(), 800);
+      }
+    }
+
+    function rainHearts(n){ for(let i=0;i<n;i++) setTimeout(spawnHeart, i*60); }
+
+    // Music helper
+    function playMusic(){
+      const audio = document.getElementById('music');
+      if(CONFIG.musicUrl){ audio.src = CONFIG.musicUrl; audio.currentTime = 0; audio.volume = 0.8; audio.play().catch(()=>{}); }
+      else { // fallback soft chime with WebAudio
+        try{
+          const ctx = new (window.AudioContext||window.webkitAudioContext)();
+          const now = ctx.currentTime;
+          const notes = [523.25,659.25,783.99,1046.5]; // C5 E5 G5 C6
+          notes.forEach((f,i)=>{
+            const o = ctx.createOscillator(); const g = ctx.createGain();
+            o.type='sine'; o.frequency.value=f; o.connect(g); g.connect(ctx.destination);
+            g.gain.setValueAtTime(0.0001, now + i*0.08);
+            g.gain.exponentialRampToValueAtTime(0.5, now + i*0.08 + 0.01);
+            g.gain.exponentialRampToValueAtTime(0.0001, now + i*0.08 + 0.4);
+            o.start(now + i*0.08); o.stop(now + i*0.08 + 0.42);
+          });
+        }catch(e){}
+      }
+    }
+
+    // Celebrate action: popup + music + visuals
+    function celebrate(){
+      modal.classList.add('show');
+      playMusic();
+      burst();
+      rainHearts(28);
+    }
+
+    // Auto confetti every 5s
+    setInterval(()=>{ burst(); rainHearts(12); }, CONFIG.autoConfettiIntervalMs);
+  </script>
+</body>
+</html>
